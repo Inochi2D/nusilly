@@ -1,10 +1,10 @@
 dmd:
-  image: ohboi/minidmd
+  image: antonmeep/dmd
   script: ./test/run.sh && dub fetch covered && dub run covered -- -a test/.coverage/silly.lst
   coverage: '/Average: \d+\.\d+%/'
 
 ldc:
-  image: ohboi/minildc
+  image: antonmeep/ldc
   script: ./test/run.sh
 
 pages:
