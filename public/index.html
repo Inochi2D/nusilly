@@ -1,0 +1,229 @@
+<!doctype html>
+<html ⚡ lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+		<link rel="preload" as="script" href="https://cdn.ampproject.org/v0.js">
+		<script async src="https://cdn.ampproject.org/v0.js"></script>
+		<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+		<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+		<style amp-custom>
+			:root {
+				--primary: #dd2c00;
+				--secondary: #c62700;
+			}
+
+			main {
+				margin-left: auto;
+				margin-right: auto;
+				padding-left: 2rem;
+				padding-right: 2rem;
+			}
+
+			@media(min-width: 48rem) {
+				main {
+					width: 46rem;
+				}
+			}
+
+			@media(min-width: 75rem) {
+				main {
+					width: 71rem;
+				}
+			}
+
+			a, a:visited {
+				color: var(--primary);
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: var(--secondary);
+			}
+
+			.main-menu nav {
+				text-align: center;
+				width: 100%;
+				color: var(--primary);
+				background: #fff;
+				border-bottom: 1px solid grey;
+			}
+
+			@media(max-width: 35rem) {
+				.main-menu nav {
+					text-align: center;
+				}
+			}
+
+			.main-menu ul {
+				padding: 0;
+				margin: 1rem 2rem;
+				list-style: none;
+			}
+
+			.main-menu ul li {
+				padding: 0 1rem;
+				display: inline-block;
+			}
+
+			article {
+				margin: 3rem 0;
+			}
+
+			article > header {
+				top: 0;
+				text-align: center;
+			}
+
+			.thingies {
+				text-align: center;
+				justify-content: center;
+				display: flex;
+				flex-flow: row wrap;
+				align-items: center;
+			}
+
+			.thingies section {
+				flex: 1 1 15rem;
+				border: 1px solid var(--primary);
+				border-radius: 1rem;
+				padding: 1rem;
+				margin: .5rem;
+			}
+		</style>
+
+		<title>Silly - better test runner for the D programming language</title>
+		<meta name="description" content="Silly is a modern test runner for the D programming language. It is easy to install and use, tests are executed in parallel">
+		<link rel="canonical" href="https://antonmeep.gitlab.io/silly/"/>
+	</head>
+	<body>
+		<header class="main-menu">
+			<nav>
+				<ul>
+					<li>
+						<a href="#">Home</a>
+					</li>
+					<li>
+						<a href="https://gitlab.com/AntonMeep/silly">Repository</a>
+					</li>
+					<li>
+						<a href="https://silly.dub.pm">Package page</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<article>
+				<header>
+					<h1><a hre="#"><amp-img width=256 height=256 src="logo.svg" alt="Silly"></amp-img></a></h1>
+					<p>Small and powerfull</p>
+				</header>
+
+				<div class="thingies">
+					<section>
+						<header><h3>Fast</h3></header>
+						<p>Tests are ran in parallel, compilation requires no extra steps</p>
+					</section>
+					<section>
+						<header><h3>Small</h3></header>
+						<p>Just 20% of features to satisfy 80% of the users</p>
+					</section>
+					<section>
+						<header><h3>Pluggable</h3></header>
+						<p>Adding silly to your project is as easy as removing it</p>
+					</section>
+					<section>
+						<header><h3>Well-tested</h3></header>
+						<p>Tested in regular CI tests and multiple open-source projects</p>
+					</section>
+					<section>
+						<header><h3>Seamless</h3></header>
+						<p>Silly integrates with dub, keeping your usual workflow intact: CI, scripts, hooks</p>
+					</section>
+				</div>
+			</article>
+			<article id="installation">
+				<header>
+					<h1><a href="#installation">Installation</a></h1>
+					<p>All you have to do in order to use silly in your project is add it to your <code>dub.json</code>/<code>dub.sdl</code> package file.</p>
+				</header>
+
+				<section>
+					<header><h2><code>dub.json</code></h2></header>
+					<pre><code>{
+	<...>
+	"dependencies": {
+		<...>
+		"silly": "*"
+	}
+}</code></pre>
+				</section>
+				<section>
+					<header><h2><code>dub.sdl</code></h2></header>
+					<pre><code><...>
+dependency "silly" version="*"</code></pre>
+				</section>
+			</article>
+			<article id="usage">
+				<header>
+					<h1><a href="#usage">Usage</a></h1>
+				</header>
+
+				<p>As soon as you added silly to dependencies of your project, you can run tests with <code>dub test</code></p>
+			</article>
+
+			<article id="troubleshooting">
+				<header>
+					<h1><a href="#troubleshooting">Troubleshooting</a></h1>
+				</header>
+
+				<section>
+					<!-- TODO -->
+				</section>
+			</article>
+
+			<article id="command-line">
+				<header>
+					<h2><a href="#command-line">Command-line options</a></h2>
+				</header>
+
+				<p><code>dub test -- &lt;options&gt;</code></p>
+				<dl>
+					<dt>--no-colours</dt>
+					<dd>Disable colours</dd>
+					<dt>-t <code>&lt;n&gt;</code></dt>
+					<dt>--threads <code>&lt;n&gt;</code></dt>
+					<dd>Number of worker threads. <code>0</code> to auto-detect (default)</dd>
+					<dt>-i <code>&lt;regexp&gt;</code></dt>
+					<dt>--include <code>&lt;regexp&gt;</code></dt>
+					<dd>Run tests if their name matches specified regular expression. See <a href="#filtering-tests">filtering tests</a></dd>
+					<dt>-e <code>&lt;regexp&gt;</code></dt>
+					<dt>--exclude <code>&lt;regexp&gt;</code></dt>
+					<dd>Skip tests if their name matches specified regular expression. See <a href="#filtering-tests">filtering tests</a></dd>
+					<dt>-v</dt>
+					<dt>--verbose</dt>
+					<dd>Show verbose output (full stack traces and durations)</dd>
+					<dt>-h</dt>
+					<dt>--help</dt>
+					<dd>Help information</dd>
+				</dl>
+			</article>
+
+			<article id="filtering-tests">
+				<header>
+					<h2><a href="#filtering-tests">Filtering tests</a></h2>
+				</header>
+
+				<p>With <code>--include</code> and <code>--exclude</code> options it's possible to control which tests will be run. These options take regular expressions in <a href="https://dlang.org/phobos/std_regex.html#Syntax%20and%20general%20information">std.regex'</a> format</p>
+				<p>
+					<code>--include</code> only tests that match provided regular expression will be run, other tests will be skipped<br>
+					<code>--exclude</code> all of the tests that don't match provided regular expression will be run
+				</p>
+
+				<p>Using both options at the same time will produce unexpected results!</p>
+			</article>
+		</main>
+	</body>
+</html>
