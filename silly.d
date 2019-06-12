@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: ISC */
+/* Copyright (c) 2019, Anton Fediushin */
+
 module silly;
 
 version(unittest):
@@ -188,7 +191,7 @@ TestResult executeTest(Test test) {
 struct Test {
 	string fullName,
 		   testName;
-	
+
 	void function() ptr;
 }
 
