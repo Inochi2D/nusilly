@@ -6,13 +6,3 @@ dmd:
 ldc:
   image: antonmeep/ldc
   script: ./test/run.sh
-
-pages:
-  artifacts:
-    paths:
-      - public/
-  only:
-    - /^v\d+\.\d+\.\d+.*$/
-    - web
-  except:
-    - branches
