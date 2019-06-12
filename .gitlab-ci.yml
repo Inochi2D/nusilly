@@ -8,12 +8,13 @@ ldc:
   script: ./test/run.sh
 
 pages:
-  image: node
-  script: cd pages && yarn install && yarn build --mode=production && cp -r public ../public
+  image: alpine
+  script: cp pages public/
   artifacts:
     paths:
       - public/
   only:
     - /^v\d+\.\d+\.\d+.*$/
+    - web
   except:
     - branches
