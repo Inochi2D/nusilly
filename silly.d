@@ -1,3 +1,10 @@
+/*
+ * Silly is a test runner for the D programming language
+ *
+ * For more information visit project's website: https://antonmeep.gitlab.io/silly/
+ * Report bugs and propose new features in project's repository: https://gitlab.com/AntonMeep/silly
+ */
+
 /* SPDX-License-Identifier: ISC */
 /* Copyright (c) 2019, Anton Fediushin */
 
