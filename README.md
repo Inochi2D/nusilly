@@ -1,46 +1,72 @@
-silly [![Repository](https://img.shields.io/badge/repository-on%20GitLab-orange.svg)](https://gitlab.com/AntonMeep/silly) [![pipeline 
-status](https://gitlab.com/AntonMeep/silly/badges/master/pipeline.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![coverage 
-report](https://gitlab.com/AntonMeep/silly/badges/master/coverage.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![MIT 
-Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](https://gitlab.com/AntonMeep/silly/blob/master/LICENCE) [![Package 
+silly [![Repository](https://img.shields.io/badge/repository-on%20GitLab-orange.svg)](https://gitlab.com/AntonMeep/silly) [![pipeline
+status](https://gitlab.com/AntonMeep/silly/badges/master/pipeline.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![coverage
+report](https://gitlab.com/AntonMeep/silly/badges/master/coverage.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![MIT
+Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](https://gitlab.com/AntonMeep/silly/blob/master/LICENCE) [![Package
 version](https://img.shields.io/dub/v/silly.svg)](https://gitlab.com/AntonMeep/silly/tags)
 =====
 
 **silly** is a no-nonsense test runner for the D programming language. Instead of re-inventing the wheel and adding more and more levels of abstraction it just works, requiring as little effort from the programmer as possible.
 
-> Note that project's development happens on the [GitLab](https://gitlab.com/AntonMeep/silly).
-> GitHub repository is a mirror, it might *not* always be up-to-date.
+# Features
 
-Make sure to check out project's [homepage](https://antonmeep.gitlab.io/silly/) for more information about installation and usage.
+- Easy to install and use with dub
+- No changes of your code are required to start using silly
+- Seamless integration with `dub test`
 
-## Why?
+# Requirements
 
-Built-in test runner is not good enough. It does its job, but it doesn't show what tests were executed. It just runs them all stopping on the first failed one. Of course, community offers many different solutions for that problem. Being an overcomplicated projects with thousands lines of code they could make you *less* productive increasing build times and deeply integrating into your project.
+To be able to use silly in your project it has to satisfy the following requirements:
 
-**silly** is developed with strict principles in mind.
+- It should be written in [D](https://dlang.org) and use latest [DMD](https://dlang.org/download.html#dmd) or [LDC](https://github.com/ldc-developers/ldc/releases) compiler (silly might work with older versions, but it's not guaranteed)
+- It should use [DUB](https://dub.pm/)
+- It should not define main function when built in unittest mode ([conditional compilation](https://dlang.org/spec/version.html) will help you here)
+- Make sure there's no `targetType: executable` in `unittest` configuration in dub.json/dub.sdl. See [#12](https://gitlab.com/AntonMeep/silly/issues/12) for more info
 
-### Keep It Simple, Silly
+# Installation
 
-Find -> run -> report. That's all there is about test runners. It can't be simpler.
+All you have to do in order to use silly in your project is add it to your dub.json/dub.sdl package file.
 
-### Less code more better
-
-Writing code is hard, writing useful code is even harder, but writing no code is genius. **silly** is meant to contain no useless code.
-
-### Just a test runner, nothing more
-
-You won't find anything besides the test runner here. It's not test runner's business to provide you with assertions and other nonsense.
-
-### Don't reinvent the wheel
-
-[dub](https://dub.pm/) is a great tool and there's no reason not to use it. Some other test runners use scripts or even integrate dub as part of them but **silly** is just an another dependency of your project.
-
-### It just works
-
-Just add it as a dependency and that's it. No editing of your project's source code is required. No editing of `dub.json/dub.sdl` except for adding a dependency is required. No changes in your editor config or terminal aliases are required, **silly** just runs with
-```
-$ dub test
+dub.json:
+```json
+{
+	<...>
+	"dependencies": {
+		<...>
+		"silly": "*"
+	}
+}
 ```
 
-### Your choice, your test runner
+dub.sdl:
+```sdl
+<...>
+dependency "silly" version="*"
+```
 
-It's up to you whether you want to use this test runner or not. Get rid of it just by removing the dependency. It won't break your CI/CD scripts and cause any trouble.
+# Usage
+
+As soon as you added silly to dependencies of your project, you can run tests with `dub test`
+
+
+# Command line options
+
+```
+dub test -- <options>
+
+Options:
+  --no-colours                    Disable colours
+  -t <n>      --threads <n>       Number of worker threads. 0 to auto-detect (default)
+  -i <regexp> --include <regexp>  Run tests if their name matches specified regular expression. See filtering tests
+  -e <regexp> --exclude <regexp>  Skip tests if their name matches specified regular expression. See filtering tests
+  -v          --verbose           Show verbose output (full stack traces and durations)
+  -h          --help              Help information
+```
+
+# Filtering tests
+
+With `--include` and `--exclude` options it's possible to control which tests will be run. These options take regular expressions in [std.regex'](https://dlang.org/phobos/std_regex.html#Syntax%20and%20general%20information) format.
+
+`--include` only tests that match provided regular expression will be run, other tests will be skipped.
+`--exclude` all of the tests that don't match provided regular expression will be run.
+
+> Using both options at the same time will produce unexpected results!
