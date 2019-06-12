@@ -8,8 +8,6 @@ ldc:
   script: ./test/run.sh
 
 pages:
-  image: alpine
-  script: cp pages public/
   artifacts:
     paths:
       - public/
