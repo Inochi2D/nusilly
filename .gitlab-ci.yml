@@ -1,7 +1,7 @@
 dmd:
   image: antonmeep/dmd
-  script: ./test/run.sh && dub fetch covered && dub run covered -- -a test/.coverage/silly.lst
-  coverage: '/Average: \d+\.\d+%/'
+  script: ./test/run.sh && tail -n1 test/.coverage/silly.lst
+  coverage: '/\d+% covered/'
 
 ldc:
   image: antonmeep/ldc
