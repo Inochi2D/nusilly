@@ -4,7 +4,6 @@
 	"authors": [
 		"Anton Fediushin"
 	],
-	"homepage": "https://ohboi.gitlab.io/silly/",
 	"copyright": "Copyright © 2019, Anton Fediushin",
 	"license": "ISC",
 	"sourceFiles": ["silly.d"],
