@@ -4,6 +4,7 @@ set -ueo pipefail
 
 . $(dirname "${BASH_SOURCE[0]}")/common.sh
 
+log "Compiler: $(command -v dmd >/dev/null 2>&1 && dmd --version | head -n1 || ldc --version | head -n1)"
 log "Dub     : $(dub --version | head -n1)"
 log "System  : $(uname -a)"
 echo
@@ -17,7 +18,7 @@ mkdir -p $TESTSUITE/.coverage
 
 for test in $(ls -vd $TESTSUITE/*/); do
 	log Performing test $(basename $test)...
-	
+
 	if TESTSUITE=$TESTSUITE ${test}test.sh; then
 		true
 	else
