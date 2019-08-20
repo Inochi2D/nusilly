@@ -4,7 +4,7 @@
 	"authors": [
 		"Anton Fediushin"
 	],
-	"copyright": "Copyright © 2019, Anton Fediushin",
+	"copyright": "Copyright © 2018-2019, Anton Fediushin",
 	"license": "ISC",
 	"sourceFiles": ["silly.d"],
 	"importPaths": ["."],
