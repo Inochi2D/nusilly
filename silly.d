@@ -29,7 +29,7 @@ shared static this() {
 
 	Runtime.extendedModuleUnitTester = () {
 		bool verbose;
-		shared size_t passed, failed;
+		shared ulong passed, failed;
 		uint threads;
 		string include, exclude;
 
