@@ -5,53 +5,129 @@ Licence](https://img.shields.io/badge/licence-ISC-blue.svg)](https://gitlab.com/
 version](https://img.shields.io/dub/v/silly.svg)](https://gitlab.com/AntonMeep/silly/tags)
 =====
 
-**silly** is a no-nonsense test runner for the D programming language. Instead of re-inventing the wheel and adding more and more levels of abstraction it just works, requiring as little effort from the programmer as possible.
+**silly** is a modern and light test runner for the D programming language.
+
+# Used by
+
+[Optional](http://optional.dub.pm/), [expected](http://expected.dub.pm/), [ddash](http://ddash.dub.pm/), and more!
+
+> Got a cool project that uses **silly**? [Let us know!](https://gitlab.com/AntonMeep/silly/issues)
 
 # Features
 
 - Easy to install and use with dub
 - No changes of your code are required to start using silly
 - Seamless integration with `dub test`
+- Named tests
+- Multi-threaded test execution
+- Filtering tests
+- Colourful output
 
-# Requirements
+# Getting started
 
-To be able to use silly in your project it has to satisfy the following requirements:
+Add **silly** to your project:
 
-- It should be written in [D](https://dlang.org) and use latest [DMD](https://dlang.org/download.html#dmd) or [LDC](https://github.com/ldc-developers/ldc/releases) compiler (silly might work with older versions, but it's not guaranteed)
-- It should use [DUB](https://dub.pm/)
-- It should not define main function when built in unittest mode ([conditional compilation](https://dlang.org/spec/version.html) will help you here)
-- Make sure there's no `targetType: executable` in `unittest` configuration in dub.json/dub.sdl. See [#12](https://gitlab.com/AntonMeep/silly/issues/12) for more info
+```
+$ dub add silly
+```
 
-# Installation
+This should be it! Try to run tests:
 
-All you have to do in order to use silly in your project is add it to your dub.json/dub.sdl package file.
+```
+$ dub test
+```
 
-dub.json:
-```json
-{
-	<...>
-	"dependencies": {
-		<...>
-		"silly": "*"
+If it succeeded then congratulations, you have just finished setting up **silly**! Make sure to add more tests and give them nice names.
+
+# Troubleshooting
+
+Unfortunately, setup isn't that easy sometimes and running `dub test` will fail. Don't panic, most of the issues are caused by the quirks and twists of dub. Here are some suggestions on what to check first:
+
+## Make sure `main()` function isn't defined when built in `unittest` mode
+
+So, instead of this:
+```d
+void main() {
+
+}
+```
+
+Do this:
+```d
+version(unittest) {
+	// Do nothing here, dub takes care of that
+} else {
+	void main() {
+
 	}
 }
 ```
 
-dub.sdl:
-```sdl
-<...>
-dependency "silly" version="*"
+## Make sure there is no `targetType: executable` in `unittest` configuration in your dub.json/dub.sdl
+
+Instead of this:
+
+```json
+{
+	...
+	"configurations": [
+		...
+		{
+			"name": "unittest",
+			"targetType": "executable",
+			...
+		}
+	]
+}
 ```
 
-# Usage
+Do this:
 
-As soon as you added silly to dependencies of your project, you can run tests with `dub test`
+```json
+{
+	...
+	"configurations": [
+		...
+		{
+			"name": "unittest",
+			...
+		}
+	]
+}
+```
 
+See [#12](https://gitlab.com/AntonMeep/silly/issues/12) for more information.
+
+## Nothing helped?
+
+Open a new [issue](https://gitlab.com/AntonMeep/silly/issues), we will be happy to help you!
+
+# Naming tests
+
+It is as easy as adding a `string` [user-defined attribute](https://dlang.org/spec/attribute.html#UserDefinedAttribute) to your `unittest` declaration.
+
+```d
+@("Johny")
+unittest {
+	// This unittest is named Johny
+}
+```
+
+If there are multiple such UDAs, the first one is chosen to be the name of the unittest.
+
+```d
+@("Hello, ") @("World!")
+unittest {
+	// This unittest's name is "Hello, "
+}
+```
 
 # Command line options
 
+**Silly** accept various command-line options that let you customize its behaviour:
+
 ```
-dub test -- <options>
+$ dub test -- <options>
 
 Options:
   --no-colours                    Disable colours
@@ -64,7 +140,7 @@ Options:
 
 # Filtering tests
 
-With `--include` and `--exclude` options it's possible to control which tests will be run. These options take regular expressions in [std.regex'](https://dlang.org/phobos/std_regex.html#Syntax%20and%20general%20information) format.
+With `--include` and `--exclude` options it's possible to control what tests will be run. These options take regular expressions in [std.regex'](https://dlang.org/phobos/std_regex.html#Syntax%20and%20general%20information) format.
 
 `--include` only tests that match provided regular expression will be run, other tests will be skipped.
 `--exclude` all of the tests that don't match provided regular expression will be run.
