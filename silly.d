@@ -226,8 +226,6 @@ enum Colour {
 }
 
 static struct Console {
-	import std.conv : text;
-
 	static void init() {
 		if(noColours) {
 			return;
@@ -256,11 +254,9 @@ static struct Console {
 	}
 
 	static string colour(T)(T t, Colour c = Colour.none) {
-		if(noColours) {
-			return text(t);
-		} else {
-			return text("\033[", cast(int) c, "m", t, "\033[m");
-		}
+		import std.conv : text;
+
+		return noColours ? text(t) : text("\033[", cast(int) c, "m", t, "\033[m");
 	}
 
 	static string emphasis(string s) {
