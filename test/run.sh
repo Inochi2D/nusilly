@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
+COMPILER_VERSION=$(command -v dmd >/dev/null 2>&1 && dmd --version | head -n1 || ldc --version | head -n1)
+
 . $(dirname "${BASH_SOURCE[0]}")/common.sh
 
-log "Compiler: $(command -v dmd >/dev/null 2>&1 && dmd --version | head -n1 || ldc --version | head -n1)"
+log "Compiler: $COMPILER_VERSION"
 log "Dub     : $(dub --version | head -n1)"
 log "System  : $(uname -a)"
 echo
-
-set -ueo pipefail
 
 TESTSUITE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
