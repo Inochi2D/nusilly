@@ -71,9 +71,8 @@ shared static this() {
 
 		// Test discovery
 		foreach(m; dub_test_root.allModules) {
-			import std.traits : fullyQualifiedName, isAggregateType;
-			static if(__traits(compiles, __traits(getUnitTests, m)) &&
-					!(__traits(isTemplate, m) || (__traits(compiles, isAggregateType!m) && isAggregateType!m))) {
+			import std.traits : fullyQualifiedName;
+			static if(__traits(isModule, m)) {
 				alias module_ = m;
 			} else {
 				import std.meta : Alias;
