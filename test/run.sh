@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-COMPILER_VERSION=$(command -v dmd >/dev/null 2>&1 && dmd --version | head -n1 || ldc --version | head -n1)
+COMPILER_VERSION=$(command -v dmd >/dev/null 2>&1 && dmd --version | head -n1 || ldc2 --version | head -n1)
 
 . $(dirname "${BASH_SOURCE[0]}")/common.sh
 
