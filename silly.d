@@ -263,12 +263,8 @@ static struct Console {
 		}
 	}
 
-	static string emphasis(T)(T t) {
-		if(noColours) {
-			return text(t);
-		} else {
-			return text("\033[1m", t, "\033[m");
-		}
+	static string emphasis(string s) {
+		return noColours ? s : "\033[1m" ~ s ~ "\033[m";
 	}
 }
 
