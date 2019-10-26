@@ -1,8 +1,6 @@
 . $TESTSUITE/common.sh
 
 OUTPUT=$(dub test -b unittest-cov --root=$(dirname "${BASH_SOURCE[0]}") --skip-registry=all --nodeps -q -- --no-colours 2>&1)
-echo $OUTPUT
-echo "$OUTPUT" | grep -c  "✓ issue_x test name"        > /dev/null
-echo "$OUTPUT" | grep -c  "Summary: 1 passed, 0 failed" > /dev/null
+echo "$OUTPUT" | grep -c  "Summary: 0 passed, 0 failed" > /dev/null
 
-rm -r $(dirname "${BASH_SOURCE[0]}")/.dub $(dirname "${BASH_SOURCE[0]}")/issue_x-test-unittest
+rm -r $(dirname "${BASH_SOURCE[0]}")/.dub $(dirname "${BASH_SOURCE[0]}")/issue_29-test-unittest
