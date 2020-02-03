@@ -171,7 +171,7 @@ void writeResult(TestResult result, in bool verbose) {
 }
 
 TestResult executeTest(Test test) {
-	import core.exception : AssertError;
+	import core.exception : AssertError, OutOfMemoryError;
 	auto ret = TestResult(test);
 	auto started = MonoTime.currTime;
 
@@ -185,8 +185,12 @@ TestResult executeTest(Test test) {
 
 		foreach(th; t) {
 			immutable(string)[] trace;
-			foreach(i; th.info)
-				trace ~= i.idup;
+			try {
+				foreach(i; th.info)
+					trace ~= i.idup;
+			} catch(OutOfMemoryError) { // TODO: Actually fix a bug instead of this workaround
+				trace ~= "<silly error> Failed to get stack trace, see https://gitlab.com/AntonMeep/silly/issues/31";
+			}
 
 			ret.thrown ~= Thrown(typeid(th).name, th.message.idup, th.file, th.line, trace);
 		}
