@@ -63,6 +63,26 @@ version(unittest) {
 }
 ```
 
+## Make sure there is a special `unittest` configuration in your dub.json/dub.sdl
+
+```json
+{
+    ...
+	"configurations": [
+		{
+			"name": "executable"
+		},
+		{
+			"name": "unittest"
+		}
+	]
+}
+```
+
+See also [#32](https://gitlab.com/AntonMeep/silly/issues/32).
+
+> **Pro Tip**: dub configurations can have `dependencies` as well! You may want to add silly as a dependency only for the `unittest` configuration to indicate that it's only used for tests.
+
 ## Make sure there is no `targetType: executable` in `unittest` configuration in your dub.json/dub.sdl
 
 Instead of this:
