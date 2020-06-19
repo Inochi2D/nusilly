@@ -82,7 +82,7 @@ shared static this() {
 
 			// Unittests in the module
 			foreach(test; __traits(getUnitTests, module_))
-				tests ~= Test(fullyQualifiedName!test, getTestName!test, &test);
+				tests ~= Test(fullyQualifiedName!test, getTestName!test, getTestLocation!test, &test);
 
 			// Unittests in structs and classes
 			foreach(member; __traits(derivedMembers, module_))
@@ -92,7 +92,7 @@ shared static this() {
 					__traits(isSame, __traits(parent, __traits(getMember, module_, member)), module_) &&
 					__traits(compiles, __traits(getUnitTests, __traits(getMember, module_, member))))
 						foreach(test; __traits(getUnitTests, __traits(getMember, module_, member)))
-							tests ~= Test(fullyQualifiedName!test, getTestName!test, &test);
+							tests ~= Test(fullyQualifiedName!test, getTestName!test, getTestLocation!test, &test);
 		}
 
 		auto started = MonoTime.currTime;
@@ -143,8 +143,16 @@ void writeResult(TestResult result, in bool verbose) {
 		result.test.testName,
 	);
 
-	if(verbose)
+	if(verbose) {
 		writer.formattedWrite(" (%.3f ms)", (cast(real) result.duration.total!"usecs") / 10.0f ^^ 3);
+
+		if(result.test.location != TestLocation.init) {
+			writer.formattedWrite(" [%s:%d:%d]",
+				result.test.location.file,
+				result.test.location.line,
+				result.test.location.column);
+		}
+	}
 
 	writer.put(newline);
 
@@ -199,9 +207,16 @@ TestResult executeTest(Test test) {
 	return ret;
 }
 
+struct TestLocation {
+	string file;
+	size_t line, column;
+}
+
 struct Test {
 	string fullName,
-		   testName;
+	       testName;
+
+	TestLocation location;
 
 	void function() ptr;
 }
@@ -288,4 +303,12 @@ string truncateName(string s, bool verbose = false) {
 	return s.length > 30 && !verbose
 		? s[max(s.indexOf('.', s.length - 30), s.length - 30) .. $]
 		: s;
+}
+
+TestLocation getTestLocation(alias test)() {
+	// test if compiler is new enough for getLocation (since 2.088.0)
+	static if(is(typeof(__traits(getLocation, test))))
+		return TestLocation(__traits(getLocation, test));
+	else
+		return TestLocation.init;
 }
