@@ -47,7 +47,7 @@ shared static this() {
 				"Skip tests if their name matches specified regular expression",
 				&exclude,
 			"v|verbose",
-				"Show verbose output (full stack traces and durations)",
+				"Show verbose output (full stack traces, location and durations)",
 				&verbose,
 		);
 

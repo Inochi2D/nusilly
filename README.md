@@ -154,7 +154,7 @@ Options:
   -t <n>      --threads <n>       Number of worker threads. 0 to auto-detect (default)
   -i <regexp> --include <regexp>  Run tests if their name matches specified regular expression. See filtering tests
   -e <regexp> --exclude <regexp>  Skip tests if their name matches specified regular expression. See filtering tests
-  -v          --verbose           Show verbose output (full stack traces and durations)
+  -v          --verbose           Show verbose output (full stack traces, location and durations)
   -h          --help              Help information
 ```
 
