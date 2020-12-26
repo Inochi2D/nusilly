@@ -87,6 +87,7 @@ shared static this() {
 			// Unittests in structs and classes
 			foreach(member; __traits(derivedMembers, module_))
 				static if(__traits(compiles, __traits(getMember, module_, member)) &&
+					__traits(compiles, __traits(isTemplate,  __traits(getMember, module_, member))) &&
 					!__traits(isTemplate,  __traits(getMember, module_, member)) &&
 					__traits(compiles, __traits(parent, __traits(getMember, module_, member))) &&
 					__traits(isSame, __traits(parent, __traits(getMember, module_, member)), module_) &&
