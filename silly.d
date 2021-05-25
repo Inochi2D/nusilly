@@ -26,7 +26,7 @@ shared static this() {
 	import std.getopt      : getopt;
 	import std.parallelism : TaskPool, totalCPUs;
 
-	Runtime.extendedModuleUnitTester = () {
+	Runtime.extendedModuleUnitTester = function () {
 		bool verbose;
 		shared ulong passed, failed;
 		uint threads;
@@ -71,29 +71,50 @@ shared static this() {
 
 		// Test discovery
 		foreach(m; dub_test_root.allModules) {
+			import std.meta : Alias;
 			import std.traits : fullyQualifiedName;
 			static if(__traits(isModule, m)) {
 				alias module_ = m;
 			} else {
-				import std.meta : Alias;
 				// For cases when module contains member of the same name
 				alias module_ = Alias!(__traits(parent, m));
 			}
 
 			// Unittests in the module
-			foreach(test; __traits(getUnitTests, module_))
+			foreach(test; __traits(getUnitTests, module_)) {
 				tests ~= Test(fullyQualifiedName!test, getTestName!test, getTestLocation!test, &test);
+			}
 
 			// Unittests in structs and classes
-			foreach(member; __traits(derivedMembers, module_))
+			foreach(member; __traits(derivedMembers, module_)) {
 				static if(__traits(compiles, __traits(getMember, module_, member)) &&
 					__traits(compiles, __traits(isTemplate,  __traits(getMember, module_, member))) &&
 					!__traits(isTemplate,  __traits(getMember, module_, member)) &&
 					__traits(compiles, __traits(parent, __traits(getMember, module_, member))) &&
-					__traits(isSame, __traits(parent, __traits(getMember, module_, member)), module_) &&
-					__traits(compiles, __traits(getUnitTests, __traits(getMember, module_, member))))
-						foreach(test; __traits(getUnitTests, __traits(getMember, module_, member)))
+					__traits(isSame, __traits(parent, __traits(getMember, module_, member)), module_) ){
+
+					alias member_ = Alias!(__traits(getMember, module_, member));
+					// unittest in root structs and classes
+					static if(__traits(compiles, __traits(getUnitTests, member_))) {
+						foreach(test; __traits(getUnitTests, member_)) {
 							tests ~= Test(fullyQualifiedName!test, getTestName!test, getTestLocation!test, &test);
+						}
+					}
+
+					// unittests in nested structs and classes
+					static if ( __traits(compiles, __traits(derivedMembers, member_)) ) {
+						foreach(nestedMember; __traits(derivedMembers, member_)) {
+							static if (__traits(compiles, __traits(getMember, member_ , nestedMember)) &&
+									__traits(compiles, __traits(getUnitTests, __traits(getMember, member_ , nestedMember)))) {
+								foreach(test; __traits(getUnitTests, __traits(getMember, member_ , nestedMember) )) {
+									tests ~= Test(fullyQualifiedName!test, getTestName!test, getTestLocation!test, &test);
+								}
+							}
+						}
+
+					}
+				}
+			}
 		}
 
 		auto started = MonoTime.currTime;
