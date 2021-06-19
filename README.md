@@ -154,6 +154,7 @@ Options:
   -t <n>      --threads <n>       Number of worker threads. 0 to auto-detect (default)
   -i <regexp> --include <regexp>  Run tests if their name matches specified regular expression. See filtering tests
   -e <regexp> --exclude <regexp>  Skip tests if their name matches specified regular expression. See filtering tests
+              --fail-fast         Stop executing all tests when a test fails
   -v          --verbose           Show verbose output (full stack traces, location and durations)
   -h          --help              Help information
 ```
@@ -166,3 +167,9 @@ With `--include` and `--exclude` options it's possible to control what tests wil
 `--exclude` all of the tests that don't match provided regular expression will be run.
 
 > Using both options at the same time will produce unexpected results!
+
+# Best practices
+
+- Running tests in multi-threaded mode (default) can potentially cause issues, try running tests with `--threads 1`
+- Although unittests inside of nested classes and structs are discovered and executed by Silly, it may be unreliable. Consider having unittest blocks on the toplevel
+
