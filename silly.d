@@ -28,6 +28,7 @@ shared static this() {
 
 	Runtime.extendedModuleUnitTester = () {
 		bool verbose;
+		bool failFast;
 		shared ulong passed, failed;
 		uint threads;
 		string include, exclude;
@@ -46,6 +47,9 @@ shared static this() {
 			"e|exclude",
 				"Skip tests if their name matches specified regular expression",
 				&exclude,
+			"fail-fast",
+				"Stop executing all tests when a test fails",
+				&failFast,
 			"v|verbose",
 				"Show verbose output (full stack traces, location and durations)",
 				&verbose,
@@ -102,18 +106,25 @@ shared static this() {
 			import core.atomic : atomicOp;
 			import std.regex   : matchFirst;
 
-			foreach(test; parallel(tests)) {
-				if((!include && !exclude) ||
-					(include && !(test.fullName ~ " " ~ test.testName).matchFirst(include).empty) ||
-					(exclude &&  (test.fullName ~ " " ~ test.testName).matchFirst(exclude).empty)) {
-						auto result = test.executeTest;
-						result.writeResult(verbose);
+			try {
+				foreach(test; parallel(tests)) {
+					if((!include && !exclude) ||
+						(include && !(test.fullName ~ " " ~ test.testName).matchFirst(include).empty) ||
+						(exclude &&  (test.fullName ~ " " ~ test.testName).matchFirst(exclude).empty)) {
 
-						atomicOp!"+="(result.succeed ? passed : failed, 1UL);
+							TestResult result;
+							scope(exit) {
+								result.writeResult(verbose);
+								atomicOp!"+="(result.succeed ? passed : failed, 1UL);
+							}
+							test.executeTest(result, failFast);
+					}
 				}
+				finish(true);
+			} catch(Throwable t) {
+				stop();
 			}
 
-			finish(true);
 		}
 
 		stdout.writeln;
@@ -179,19 +190,17 @@ void writeResult(TestResult result, in bool verbose) {
 	}
 }
 
-TestResult executeTest(Test test) {
+void executeTest(Test test, out TestResult result, bool failFast) {
 	import core.exception : AssertError, OutOfMemoryError;
-	auto ret = TestResult(test);
-	auto started = MonoTime.currTime;
+	result.test = test;
+	const started = MonoTime.currTime;
 
 	try {
-		scope(exit) ret.duration = MonoTime.currTime - started;
+		scope(exit) result.duration = MonoTime.currTime - started;
 		test.ptr();
-		ret.succeed = true;
-	} catch(Throwable t) {
-		if(!(cast(Exception) t || cast(AssertError) t))
-			throw t;
+		result.succeed = true;
 
+	} catch(Throwable t) {
 		foreach(th; t) {
 			immutable(string)[] trace;
 			try {
@@ -201,11 +210,12 @@ TestResult executeTest(Test test) {
 				trace ~= "<silly error> Failed to get stack trace, see https://gitlab.com/AntonMeep/silly/issues/31";
 			}
 
-			ret.thrown ~= Thrown(typeid(th).name, th.message.idup, th.file, th.line, trace);
+			result.thrown ~= Thrown(typeid(th).name, th.message.idup, th.file, th.line, trace);
+		}
+		if (failFast && (!(cast(Exception) t || cast(AssertError) t))) {
+			throw t;
 		}
 	}
-
-	return ret;
 }
 
 struct TestLocation {
