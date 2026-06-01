@@ -1,17 +1,11 @@
-silly [![Repository](https://img.shields.io/badge/repository-on%20GitLab-orange.svg)](https://gitlab.com/AntonMeep/silly) [![pipeline
-status](https://gitlab.com/AntonMeep/silly/badges/master/pipeline.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![coverage
-report](https://gitlab.com/AntonMeep/silly/badges/master/coverage.svg)](https://gitlab.com/AntonMeep/silly/commits/master) [![ISC
-Licence](https://img.shields.io/badge/licence-ISC-blue.svg)](https://gitlab.com/AntonMeep/silly/blob/master/LICENSE) [![Package
-version](https://img.shields.io/dub/v/silly.svg)](https://gitlab.com/AntonMeep/silly/tags)
+NuSilly [![Repository](https://img.shields.io/badge/repository-on%20GitHub-black.svg)](https://github.com/Inochi2D/nusilly) [![ISC
+Licence](https://img.shields.io/badge/licence-ISC-blue.svg)](https://github.com/Inochi2D/nusilly/blob/main/LICENSE) [![Package
+version](https://img.shields.io/dub/v/nusilly.svg)](https://github.com/Inochi2D/nusilly/tags)
 =====
 
-**silly** is a modern and light test runner for the D programming language.
+**NuSilly** is a modern and light test runner for the D programming language.
 
-# Used by
-
-[Optional](http://optional.dub.pm/), [expected](http://expected.dub.pm/), [ddash](http://ddash.dub.pm/), and more!
-
-> Got a cool project that uses **silly**? [Let us know!](https://gitlab.com/AntonMeep/silly/issues)
+NuSilly is forked from `silly`, a package by Anton Fediushin.
 
 # Features
 
