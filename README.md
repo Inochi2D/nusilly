@@ -5,7 +5,8 @@ version](https://img.shields.io/dub/v/nusilly.svg)](https://github.com/Inochi2D/
 
 **NuSilly** is a modern and light test runner for the D programming language.
 
-NuSilly is forked from `silly`, a package by Anton Fediushin.
+NuSilly is forked from `silly`, a package by Anton Fediushin.  
+This package aims to update NuSilly to work better with newer releases of DLang and other tooling such as redub.
 
 # Features
 
@@ -19,10 +20,10 @@ NuSilly is forked from `silly`, a package by Anton Fediushin.
 
 # Getting started
 
-Add **silly** to your project:
+Add **nusilly** to your project:
 
 ```
-$ dub add silly
+$ dub add nusilly
 ```
 
 This should be it! Try to run tests:
